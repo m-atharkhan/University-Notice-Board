@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchNotices } from "../services/api";
 import NoticeCard from "../components/NoticeCard";
 import Navbar from "../components/Navbar";
+import { Navigate } from "react-router-dom";
 
 export default function Notices() {
   const [notices, setNotices] = useState([]);
@@ -14,6 +15,7 @@ export default function Notices() {
   const getNotices = async () => {
     try {
       const res = await fetchNotices();
+      if (!res) Navigate('/');
       setNotices(res.data);
     } catch (error) {
       console.error("Error fetching notices:", error);
