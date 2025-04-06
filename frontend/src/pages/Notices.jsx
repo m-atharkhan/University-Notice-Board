@@ -16,6 +16,7 @@ export default function Notices() {
   const getNotices = async () => {
     try {
       const res = await fetchNotices();
+console.log (res);
       if (res.status ===401) navigate('/login');
       else setNotices(res.data);
     } catch (error) {
