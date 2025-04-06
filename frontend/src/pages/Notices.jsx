@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { fetchNotices } from "../services/api";
 import NoticeCard from "../components/NoticeCard";
 import Navbar from "../components/Navbar";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Notices() {
   const [notices, setNotices] = useState([]);
   const [sortedNotices, setSortedNotices] = useState([]);
   const [sortBy, setSortBy] = useState("date");
+  const navigate = useNavigate();
 
   const isAuthenticated = !!localStorage.getItem("token");
 
@@ -15,8 +16,8 @@ export default function Notices() {
   const getNotices = async () => {
     try {
       const res = await fetchNotices();
-      if (!res) Navigate('/');
-      setNotices(res.data);
+      if (res.status ===401) navigate('/login');
+      else setNotices(res.data);
     } catch (error) {
       console.error("Error fetching notices:", error);
     }
